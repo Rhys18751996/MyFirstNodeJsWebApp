@@ -11,3 +11,9 @@ export async function getUser(req, res) {
     res.json(user);
 }
 
+export async function searchUser(req, res) {
+    const queryString = req.query.q;
+    console.log("the user/searchUser/search?q=" + queryString +" route was called");
+    const msg = { queryString: queryString };
+    res.json(msg);
+}
