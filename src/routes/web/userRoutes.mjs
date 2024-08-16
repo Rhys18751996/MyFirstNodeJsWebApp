@@ -1,14 +1,14 @@
 import express from "express";
 const router = express.Router();
 
-import { index, getUser } from "../../controllers/userController.mjs";
+import * as controller from "../../controllers/userController.mjs";
 
 router.get("/", (req, res) => {
-    index(req, res)
+    controller.index(req, res)
 });
 
 router.get("/getUser/:id", (req, res) => {
-    getUser(req, res);
+    controller.getUser(req, res);
 });
 
 // Define a route which goes to userController and uses its index method

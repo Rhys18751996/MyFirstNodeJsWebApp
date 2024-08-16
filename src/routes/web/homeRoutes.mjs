@@ -1,14 +1,14 @@
 import express from "express";
+import * as controller from "../../controllers/homeController.mjs";
+
 const router = express.Router();
 
 router.get("/", (req, res) => {
-    console.log("the home/index route was called");
-    res.render("home/");
+    controller.index(req, res);
 });
 
 router.get("/home", (req, res) => {
-    console.log("the home/home route was called");
-    res.render("home/home");
+    controller.home(req, res);
 });
 
 export default router;
