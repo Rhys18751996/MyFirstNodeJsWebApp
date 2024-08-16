@@ -1,6 +1,11 @@
 export async function index(req, res) {
-    console.log("userController indexx fired");
+    console.log("userController index fired");
     res.render("user/");
+}
+
+export async function register(req, res) {
+    console.log("userController register fired");
+    res.render("user/register");
 }
 
 export async function getUser(req, res) {
