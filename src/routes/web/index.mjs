@@ -5,6 +5,6 @@ import userRoutes from "./userRoutes.mjs";
 const router = express.Router();
 
 router.use("/", homeRoutes);
-router.use("/", userRoutes);
+router.use("/user", userRoutes);
 
 export default router;
