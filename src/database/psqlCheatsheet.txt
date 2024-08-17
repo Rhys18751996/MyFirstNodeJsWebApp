@@ -1,3 +1,5 @@
+//https://www.postgresql.org/docs/current/app-psql.html
+
 open docker desktop 
 click on Containers 
 click on the postgres Containers
@@ -11,3 +13,34 @@ to see what version
 to see all the databases, you need to explicitly specify the user
 - postgres is default master
 # psql --list -U postgres
+
+to begin psql session
+# psql -U postgres
+
+to create a new database (in a psql session)
+# CREATE DATABASE <my_new_database>;
+
+connect to db as the logged in user 
+postgres-# \c <db_name>
+
+to show table relations
+<db_name>-# \dt
+
+<db_name>-# CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    username VARCHAR(100) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    name VARCHAR(100),
+    phoneNumber VARCHAR(15),
+    address TEXT
+);
+
+then to check the database table relations
+<db_name>-# \dt
+
+then to insert a record
+postgres-# INSERT INTO users (username, email, password, name, phoneNumber, address)
+VALUES ('johnny', 'john.doe@example.com', '1234', 'John Doe', '1234567890', '123 Main St, Anytown, Aus');
+
+<db_name>-# SELECT * FROM <table-name>;

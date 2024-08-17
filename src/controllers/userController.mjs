@@ -1,4 +1,4 @@
-import {getUserById, createUser} from "../database/userQueries.mjs";
+import * as query from "../database/userQueries.mjs";
 
 
 export async function index(req, res) {
@@ -15,7 +15,7 @@ export async function registerUser(req, res) {
     let result = {}
     try{
         const reqJson = req.body;
-        result.success = await createUser(reqJson.user)
+        result.success = await query.createUser(reqJson.user)
     }
     catch(err) {
         result.success=false;
@@ -29,12 +29,17 @@ export async function registerUser(req, res) {
 
 
 // admin controllers
+export async function getAllUsers(req, res) {
+    console.log("getAllUsers (userController)");
+    var user = await query.getUsers();
+    res.json(user);
+    }
 
 export async function getUser(req, res) {
     console.log("getUser (userController)");
     // Simulate fetching user data from a database
     const userId = req.params.id;
-    const user = getUserById(userId);
+    const user = query.getUserById(userId);
     //const user = { id: userId, name: 'John Doe', email: 'john.doe@example.com' };
     res.json(user);
 }
@@ -50,7 +55,7 @@ export async function deleteUser(req, res) {
     try {
         console.log("deleteUser (userController)");
         const reqJson = req.body;
-        result.success = await deleteTodo(reqJson.id)
+        result.success = await query.deleteTodo(reqJson.id)
     }
     catch(err) {
         result.success=false;

@@ -1,55 +1,92 @@
-import { client } from "./psqlConnection.mjs";
+//const {Pool} = require("pg")
+//https://node-postgres.com/apis/client
+import pg from 'pg'
+const { Client } = pg
 
+async function createClient() {
+    const client = new Client({
+        user: "postgres",
+        password: "postgres",
+        port: 5432,
+        database: "ecocampusexchangedb"
+        })
+    return client;
+}
 
-export async function getAllUsers() {
+export async function getUsers() {
+    console.log("getUsers (userQueries)");
+    let client = await createClient();
     try {
-        client.connectDb();
+        await client.connect();
+        try {
+            var results = await client.query('SELECT * FROM users;');
+         } catch (err) {
+            console.error(err);
+         } finally {
+            await client.end()
+         }
 
-        console.log("attempting getAllUsers() in userQueries");
-        query = "SELECT * FROM user";
-        const results = await client.query(query);
-        //json = JSON.stringify(results);
-        json = JSON.parse(results);
+        console.log(results)
+        console.log("returned:" + results.rows);
 
-        client.disconnectDb();
-        return json;
+        return resultRows;
     }
     catch(err) {
-        client.disconnectDb();
         return [];
     }
 }
 
 export async function getUserById(id) {
     try {
-        client.connectDb();
+        connectDb();
 
-        //query = "SELECT * FROM user WHERE id = ${id}"
-        query = "SELECT * FROM user WHERE id = " + id;
+        query = "SELECT * FROM users WHERE id = " + id;
         const results = await client.query(query);
         //json = JSON.stringify(results);
         json = JSON.parse(results);
 
-        client.disconnectDb();
+        disconnectDb();
         return json;
     }
     catch(err) {
-        client.disconnectDb();
+        disconnectDb();
         return [];
     }
 }
 
 export async function createUser(userText) {
     try {
-        client.connectDb();
+        connectDb();
 
-        await client.query("INSERT INTO user (text) VALUES ($1)", [userText]);
+        await client.query("INSERT INTO users (text) VALUES ($1)", [userText]);
 
-        client.disconnectDb();
+        disconnectDb();
         return true
     }
     catch(err) {
-        client.disconnectDb();
+        disconnectDb();
         return false;
+    }
+}
+
+export async function testQuery() {
+    let client = await createClient();
+    try {
+        await client.connect();
+        try {
+            const result = await client.query('SELECT $1::text as message', ['Hello world!'])
+            var resultRows = result.rows[0].message;
+         } catch (err) {
+            console.error(err);
+         } finally {
+            await client.end()
+         }
+
+        console.log("testQuery() successfully returned: " + resultRows);
+        await client.end();
+        return resultRows;
+    }
+    catch(err) {
+        return [];
     }
 }

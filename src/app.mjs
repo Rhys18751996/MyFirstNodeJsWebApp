@@ -4,7 +4,7 @@ import { fileURLToPath } from "url";
 import webRoutes from "./routes/web/index.mjs";
 import apiRoutes from "./routes/api/index.mjs";
 
-import { testDbConnection } from "./database/psqlConnection.mjs"
+import { testQuery } from "./database/userQueries.mjs"
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -22,5 +22,9 @@ app.listen(app.get("port"), () => {
     console.log(`Server started on port ${app.get("port")}\n`);
 });
 
-// create default user if no users exist in database
-testDbConnection();
+//testQuery();
+
+// playing with sequelize for nodejs and postgres 
+import { ecoDb, authenticateDb } from "./database/sequelizeDbConnection.mjs";
+authenticateDb();
+

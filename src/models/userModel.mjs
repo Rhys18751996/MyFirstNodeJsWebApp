@@ -1,1 +1,0 @@
-// postgresQL user model
