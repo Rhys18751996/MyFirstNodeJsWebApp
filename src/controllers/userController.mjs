@@ -1,4 +1,6 @@
 import * as db from "../database/UserQueries.mjs";
+import passport from "passport";
+import { User } from "../models/User.mjs";
 
 export async function index(req, res) {
     console.log("index (userController)");
@@ -6,7 +8,12 @@ export async function index(req, res) {
 }
 
 export async function register(req, res) {
-    console.log("regiter (userController)");
+    console.log("register (userController)");
+
+    var username = req.body.username;
+    var email = req.body.email;
+    var password = req.body.password;
+
     res.render("user/register");
 }
 export async function registerUser(req, res) {
@@ -27,6 +34,10 @@ export async function registerUser(req, res) {
 }
 export async function login(req, res) {
     console.log("login (userController)");
+
+    var username = req.body.username;
+    var password = req.body.password;
+
     let user = await db.getUserByUsernameAndPassword();
     res.json(user);
 }
@@ -73,3 +84,21 @@ export async function createTestUser(req, res) {
     await db.createTestUser();
     res.send("created test user");
     }
+
+
+async function saltPassword(pasword) {
+    let SALT_FACTOR = 10;
+    try {
+        let salt = await bcrypt.genSalt(SALT_FACTOR);
+        let hashedPassword = await bcrypt.hash(password, salt);
+        return hashedPassword;
+    }
+    catch(err) {
+        console.log(err);
+    }
+}
+ async function checkPasswordIsMatch(){
+
+ }
+
+
