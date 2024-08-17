@@ -1,5 +1,4 @@
-import * as query from "../database/userQueries.mjs";
-
+import * as db from "../database/UserQueries.mjs";
 
 export async function index(req, res) {
     console.log("index (userController)");
@@ -15,7 +14,7 @@ export async function registerUser(req, res) {
     let result = {}
     try{
         const reqJson = req.body;
-        result.success = await query.createUser(reqJson.user)
+        result.success = await db.createUser(reqJson.user)
     }
     catch(err) {
         result.success=false;
@@ -26,27 +25,29 @@ export async function registerUser(req, res) {
         res.redirect("/");
     }
 }
-
+export async function login(req, res) {
+    console.log("login (userController)");
+    let user = await db.getUserByUsernameAndPassword();
+    res.json(user);
+}
 
 // admin controllers
 export async function getAllUsers(req, res) {
     console.log("getAllUsers (userController)");
-    var user = await query.getUsers();
+    let user = await db.getUsers();
     res.json(user);
     }
 
 export async function getUser(req, res) {
     console.log("getUser (userController)");
-    // Simulate fetching user data from a database
-    const userId = req.params.id;
-    const user = query.getUserById(userId);
-    //const user = { id: userId, name: 'John Doe', email: 'john.doe@example.com' };
+    let user = await db.getUserById(req.params.id);
     res.json(user);
 }
+
 export async function searchUser(req, res) {
-    const queryString = req.query.q;
+    let queryString = req.query.q;
     console.log("the user/searchUser/search?q=" + queryString +" route was called");
-    const msg = { queryString: queryString };
+    let msg = { queryString: queryString };
     res.json(msg);
 }
 
@@ -55,7 +56,7 @@ export async function deleteUser(req, res) {
     try {
         console.log("deleteUser (userController)");
         const reqJson = req.body;
-        result.success = await query.deleteTodo(reqJson.id)
+        result.success = await User.destroy(reqJson.id)
     }
     catch(err) {
         result.success=false;
@@ -63,5 +64,12 @@ export async function deleteUser(req, res) {
     finally{
         res.setHeader("content-type", "application/json")
         res.send(JSON.stringify(result))
+        //res.redirect("/");
     }
 }
+
+export async function createTestUser(req, res) {
+    console.log("createTestUser (userController)");
+    await db.createTestUser();
+    res.send("created test user");
+    }

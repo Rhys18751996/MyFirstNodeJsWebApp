@@ -33,7 +33,9 @@ to show table relations
     password VARCHAR(255) NOT NULL,
     name VARCHAR(100),
     phoneNumber VARCHAR(15),
-    address TEXT
+    address TEXT,
+    createdAt TIMESTAMP,
+    updatedAt TIMESTAMP
 );
 
 then to check the database table relations

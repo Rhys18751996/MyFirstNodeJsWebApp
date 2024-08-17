@@ -10,5 +10,6 @@ router.get("/searchUser", controller.searchUser); //http://localhost:3000/user/s
 
 router.delete("/deleteUser", controller.deleteUser);
 router.post("/register", controller.registerUser);
-
+router.post("/login", controller.login);
+router.get("/createTestUser", controller.createTestUser);
 export default router;
