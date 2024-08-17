@@ -7,4 +7,7 @@ router.get("/register", controller.register);
 router.get("/getUser/:id", controller.getUser);
 router.get("/searchUser", controller.searchUser); //http://localhost:3000/user/searchUser?q=something
 
+router.delete("/deleteUser", controller.deleteUser);
+router.post("/register", controller.registerUser);
+
 export default router;
