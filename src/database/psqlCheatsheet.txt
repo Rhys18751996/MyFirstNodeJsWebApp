@@ -1,0 +1,13 @@
+open docker desktop 
+click on Containers 
+click on the postgres Containers
+click on Exec tab
+
+you are now in psql shell
+
+to see what version 
+# psql --version
+
+to see all the databases, you need to explicitly specify the user
+- postgres is default master
+# psql --list -U postgres
