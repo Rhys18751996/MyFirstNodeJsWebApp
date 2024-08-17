@@ -1,7 +1,8 @@
 import passport from "passport";
-//var LocalStrategy = require("passport-local").Strategy;
-import LocalStrategy from ("passport-local").Strategy;
-var User = require("./models/user");
+import Strategy from "passport-local";
+//var User = require("./models/Users.mjs");
+import {User} from "./models/User.mjs";
+var LocalStrategy = Strategy.Strategy;
 
 export async function serializeTheUser() {
     //turns a user object into an id
@@ -18,17 +19,18 @@ export async function deserializeTheUser(id) {
         });
     });
 }
-module.exports = function () {
+
+export async function setupPassport() {
     passport.use("login", new LocalStrategy({
-        usernameField: 'email',
+        usernameField: 'username',
         passwordField: 'password'
     }, function (email, password, done) {
         User.findOne({ email: email }, function (err, user) {
             if (err) { return done(err); }
             if (!user) {
-                return done(null, false, { message: "No user has that Email!" });
+                return done(null, false, { message: "Username not found!" });
             }
-            user.checkPassword(password, function (err, isMatch) {
+            userController.checkPasswordIsMatch(password, function (err, isMatch) {
                 if (err) { return done(err); }
                 if (isMatch) {
                     return done(null, user);

@@ -11,12 +11,14 @@ import flash from "connect-flash";
 import webRoutes from "./routes/web/index.mjs";
 import apiRoutes from "./routes/api/index.mjs";
 import { syncUserDb } from "./models/User.mjs";
+import { setupPassport } from "./setupPassport.mjs"
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
 
+setupPassport();
 app.set("port", process.env.PORT || 3000);
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
