@@ -1,61 +1,118 @@
-import Sequelize from "sequelize";
-import { ecoDb } from "../database/sequelizeDbConnection.mjs "
+import { Sequelize, DataTypes, Model } from 'sequelize';
+import ecoDb from "../database/sequelizeDbConnection.mjs "
 
-export const User = ecoDb.define('users', {
+
+class User extends Model {}
+User.init({
   id: {
     type: Sequelize.INTEGER,
     autoIncrement: true,  // This ensures that the id will auto-increment
     primaryKey: true,     // This sets the id as the primary key
     allowNull: false      // It's good practice to specify allowNull as false for primary keys
   },
-    username: {
-      type: Sequelize.STRING,
-      allowNull: false,
-      validate: {
-        notEmpty: true
-      }
-    },
-    email: {
-      type: Sequelize.STRING,
-      allowNull: false,
-      validate: {
-        notEmpty: true
-      }
-    },
-    password: {
-      type: Sequelize.STRING,
-      allowNull: false,
-      validate: {
-        notEmpty: true
-      }
-    },
-    name: {
-      type: Sequelize.STRING,
-      allowNull: true,
-    },
-    phone_number: {
-        type: Sequelize.STRING,
-        allowNull: true,
-    },
-    address: {
-        type: Sequelize.STRING,
-        allowNull: true,
+  username: {
+    type: Sequelize.STRING,
+    allowNull: false,
+    validate: {
+      notEmpty: true
     }
   },
-  {
-    timestamps: true // This enables `createdAt` and `updatedAt`
+  email: {
+    type: Sequelize.STRING,
+    allowNull: false,
+    validate: {
+      notEmpty: true
+    }
+  },
+  password: {
+    type: Sequelize.STRING,
+    allowNull: false,
+    validate: {
+      notEmpty: true
+    }
+  },
+  name: {
+    type: Sequelize.STRING,
+    allowNull: true,
+  },
+  phone_number: {
+      type: Sequelize.STRING,
+      allowNull: true,
+  },
+  address: {
+      type: Sequelize.STRING,
+      allowNull: true,
+  }
+  }, {
+    ecoDb,
+    timestamps: true, // This enables `createdAt` and `updatedAt`
+    modelName: 'User'
   });
+  export default User;
 
-  
-export async function syncUserDb() {
+  // Define Associations
+  User.hasMany(UserRole, { foreignKey: 'userId' });
+  //UserRole.belongsTo(User, { foreignKey: 'userId' });
+
+  //Role.hasMany(UserRole, { foreignKey: 'roleId' });
+  //UserRole.belongsTo(Role, { foreignKey: 'roleId' });
+
+
+  export async function syncUserDb() {
     try {
         await User.sync();
-        console.log('table created');
+        console.log('User table created');
     }
     catch(err) {
         console.log(err);
     }
 }
+
+
+// export const User = ecoDb.define('users', {
+//   id: {
+//     type: Sequelize.INTEGER,
+//     autoIncrement: true,  // This ensures that the id will auto-increment
+//     primaryKey: true,     // This sets the id as the primary key
+//     allowNull: false      // It's good practice to specify allowNull as false for primary keys
+//   },
+//     username: {
+//       type: Sequelize.STRING,
+//       allowNull: false,
+//       validate: {
+//         notEmpty: true
+//       }
+//     },
+//     email: {
+//       type: Sequelize.STRING,
+//       allowNull: false,
+//       validate: {
+//         notEmpty: true
+//       }
+//     },
+//     password: {
+//       type: Sequelize.STRING,
+//       allowNull: false,
+//       validate: {
+//         notEmpty: true
+//       }
+//     },
+//     name: {
+//       type: Sequelize.STRING,
+//       allowNull: true,
+//     },
+//     phone_number: {
+//         type: Sequelize.STRING,
+//         allowNull: true,
+//     },
+//     address: {
+//         type: Sequelize.STRING,
+//         allowNull: true,
+//     }
+//   },
+//   {
+//     timestamps: true // This enables `createdAt` and `updatedAt`
+//   });
 
 
 

@@ -1,7 +1,7 @@
 import passport from "passport";
 import Strategy from "passport-local";
 //var User = require("./models/Users.mjs");
-import {User} from "./models/User.mjs";
+import User from "./models/User.mjs";
 var LocalStrategy = Strategy.Strategy;
 
 export async function serializeTheUser() {

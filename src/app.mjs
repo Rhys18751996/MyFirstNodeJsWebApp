@@ -45,7 +45,7 @@ await syncUserDb(); // this creates the users database
 
 
 import * as userQueries from "./database/UserQueries.mjs";
-import { User } from "./models/User.mjs";
+//import User from "./models/User.mjs";
 
 
 // get first user in the list of returns users then make it a plain json

@@ -1,6 +1,6 @@
 import * as db from "../database/UserQueries.mjs";
 import passport from "passport";
-import { User } from "../models/User.mjs";
+import User from "../models/User.mjs";
 
 export async function index(req, res) {
     console.log("index (userController)");

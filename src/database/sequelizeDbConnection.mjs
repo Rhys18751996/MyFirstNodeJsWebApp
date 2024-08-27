@@ -1,10 +1,11 @@
 import Sequelize from "sequelize";
 
-export var ecoDb = new Sequelize('ecocampusexchangedb', 'postgres', 'postgres', {
+const ecoDb = new Sequelize('ecocampusexchangedb', 'postgres', 'postgres', {
   host: 'localhost',
   port: 5432,
   dialect: 'postgres'
 });
+export default ecoDb;
 
 export async function authenticateDb() {
   try {
