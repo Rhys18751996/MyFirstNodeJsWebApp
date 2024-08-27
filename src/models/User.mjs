@@ -3,8 +3,10 @@ import { ecoDb } from "../database/sequelizeDbConnection.mjs "
 
 export const User = ecoDb.define('users', {
   id: {
-    primaryKey: true,
-    type: Sequelize.INTEGER
+    type: Sequelize.INTEGER,
+    autoIncrement: true,  // This ensures that the id will auto-increment
+    primaryKey: true,     // This sets the id as the primary key
+    allowNull: false      // It's good practice to specify allowNull as false for primary keys
   },
     username: {
       type: Sequelize.STRING,
@@ -31,7 +33,7 @@ export const User = ecoDb.define('users', {
       type: Sequelize.STRING,
       allowNull: true,
     },
-    phoneNumber: {
+    phone_number: {
         type: Sequelize.STRING,
         allowNull: true,
     },
@@ -39,6 +41,9 @@ export const User = ecoDb.define('users', {
         type: Sequelize.STRING,
         allowNull: true,
     }
+  },
+  {
+    timestamps: true // This enables `createdAt` and `updatedAt`
   });
 
   

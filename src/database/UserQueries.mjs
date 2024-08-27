@@ -1,5 +1,21 @@
 import { User } from "../models/User.mjs";
 
+
+//////////////////////////////////////////////////////////////
+let users = await User.findAll();
+
+// get first user in the list of returns users then make it a plain json
+if (users.length > 0) {
+//let userPlain = users[0].get({ plain: true });
+//console.log(userPlain)
+}
+
+// make the returning object a nice json object
+let usersPlain = users.map(user => user.get({ plain: true }));
+console.log(usersPlain);
+//////////////////////////////////////////////////////////
+
+
 export async function getUsers() {
     try {
         console.log("\ngetUsers (userQueries)");

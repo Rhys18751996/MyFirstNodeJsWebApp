@@ -26,13 +26,14 @@ postgres-# \c <db_name>
 to show table relations
 <db_name>-# \dt
 
+# Note: let the app.js's DbSync function create this table
 <db_name>-# CREATE TABLE users (
     id SERIAL PRIMARY KEY,
     username VARCHAR(100) NOT NULL,
     email VARCHAR(255) NOT NULL,
     password VARCHAR(255) NOT NULL,
     name VARCHAR(100),
-    phoneNumber VARCHAR(15),
+    phone_number VARCHAR(20),
     address TEXT,
     createdAt TIMESTAMP,
     updatedAt TIMESTAMP
@@ -42,7 +43,7 @@ then to check the database table relations
 <db_name>-# \dt
 
 then to insert a record
-postgres-# INSERT INTO users (username, email, password, name, phoneNumber, address)
-VALUES ('johnny', 'john.doe@example.com', '1234', 'John Doe', '1234567890', '123 Main St, Anytown, Aus');
+postgres-# INSERT INTO users (username, email, password, name, phone_number, address, "createdAt", "updatedAt")
+VALUES ('johnny', 'john.doe@example.com', '1234', 'John Doe', '1234567890', '123 Main St, Anytown, Aus', NOW(), NOW());
 
 <db_name>-# SELECT * FROM <table-name>;

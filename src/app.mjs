@@ -11,7 +11,7 @@ import flash from "connect-flash";
 import webRoutes from "./routes/web/index.mjs";
 import apiRoutes from "./routes/api/index.mjs";
 import { syncUserDb } from "./models/User.mjs";
-import { setupPassport } from "./setupPassport.mjs"
+import { setupPassport } from "./setupPassport.mjs";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -41,5 +41,21 @@ app.listen(app.get("port"), () => {
     console.log(`Server started on port ${app.get("port")}\n`);
 });
 
-syncUserDb(); // this creates the users database
+await syncUserDb(); // this creates the users database
 
+
+import * as userQueries from "./database/UserQueries.mjs";
+import { User } from "./models/User.mjs";
+
+
+let users = await User.findAll();
+
+// get first user in the list of returns users then make it a plain json
+if (users.length > 0) {
+//let userPlain = users[0].get({ plain: true });
+//console.log(userPlain)
+}
+
+// make the returning object a nice json object
+let usersPlain = users.map(user => user.get({ plain: true }));
+console.log(usersPlain);
