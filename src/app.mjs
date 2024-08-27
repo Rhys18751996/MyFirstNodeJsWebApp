@@ -48,14 +48,14 @@ import * as userQueries from "./database/UserQueries.mjs";
 import { User } from "./models/User.mjs";
 
 
-let users = await User.findAll();
-
 // get first user in the list of returns users then make it a plain json
-if (users.length > 0) {
-//let userPlain = users[0].get({ plain: true });
-//console.log(userPlain)
+let theUsername = await userQueries.getUserById(4)
+if(theUsername != null) {
+    console.log(theUsername.username);
+} else {
+    console.log("No user with that id.")
 }
 
 // make the returning object a nice json object
-let usersPlain = users.map(user => user.get({ plain: true }));
-console.log(usersPlain);
+//let usersPlain = users.map(user => user.get({ plain: true }));
+//console.log(usersPlain);
