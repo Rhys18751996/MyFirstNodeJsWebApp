@@ -44,11 +44,12 @@ app.listen(app.get("port"), () => {
 import { syncUserDb } from "./models/sequelizeUser.mjs";
 import { syncRoleDb } from "./models/sequelizeRole.mjs";
 import { syncUserRoleDb } from "./models/sequelizeUserRole.mjs";
+import { setUserRoleAssociations } from "./models/defineAssociations.mjs";
 
 await syncUserDb(); // this creates the users database
 await syncRoleDb();
 await syncUserRoleDb();
-
+await setUserRoleAssociations();
 
 //import * as userQueries from "./database/UserQueries.mjs";
 //import User from "./models/User.mjs";

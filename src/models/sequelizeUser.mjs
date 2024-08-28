@@ -53,9 +53,6 @@ User.init({
 
   export default User;
 
-  // Define Associations
-  User.hasMany(UserRole, { foreignKey: 'userId' });
-
   export async function syncUserDb() {
     try {
         await User.sync();

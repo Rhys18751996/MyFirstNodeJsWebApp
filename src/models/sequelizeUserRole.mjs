@@ -41,11 +41,7 @@ UserRole.init({
     ]
 });
 
-UserRole.belongsTo(User, { foreignKey: 'userId' });
-UserRole.belongsTo(Role, { foreignKey: 'roleId' });
-
 export default UserRole;
-  
 
 export async function syncUserRoleDb() {
     try {

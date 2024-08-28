@@ -24,12 +24,8 @@ Role.init({
     modelName: 'Role',
     tableName: 'roles',
   });
-  
-  Role.hasMany(UserRole, { foreignKey: 'roleId' });
 
   export default Role;
-
-  
 
   export async function syncRoleDb() {
     try {

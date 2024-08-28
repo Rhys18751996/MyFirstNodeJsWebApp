@@ -1,7 +1,16 @@
+import User from "../models/sequelizeUser.mjs"
+import Role from "../models/sequelizeRole.mjs"
+import UserRole from "../models/sequelizeUserRole.mjs"
 
-
-
-User.hasMany(UserRole, { foreignKey: 'userId' });
-Role.hasMany(UserRole, { foreignKey: 'roleId' });
-UserRole.belongsTo(User, { foreignKey: 'userId' });
-UserRole.belongsTo(Role, { foreignKey: 'roleId' });
+export async function setUserRoleAssociations() {
+    try {
+        await User.hasMany(UserRole, { foreignKey: 'userId' });
+        await Role.hasMany(UserRole, { foreignKey: 'roleId' });
+        await UserRole.belongsTo(User, { foreignKey: 'userId' });
+        await UserRole.belongsTo(Role, { foreignKey: 'roleId' });
+        console.log("references are set")
+    }
+    catch(err) {
+        console.log(err);
+    }
+}
