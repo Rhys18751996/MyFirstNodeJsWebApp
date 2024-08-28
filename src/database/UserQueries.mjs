@@ -1,4 +1,4 @@
-import User from "../models/User.mjs";
+import User from "../models/sequelizeUser.mjs";
 
 export async function getUsers() {
     try {

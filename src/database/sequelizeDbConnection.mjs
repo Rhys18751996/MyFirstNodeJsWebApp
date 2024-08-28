@@ -1,11 +1,16 @@
-import Sequelize from "sequelize";
+import { Sequelize } from 'sequelize';
 
+// Initialize Sequelize instance
 const ecoDb = new Sequelize('ecocampusexchangedb', 'postgres', 'postgres', {
   host: 'localhost',
   port: 5432,
-  dialect: 'postgres'
+  dialect: 'postgres',
+  logging: false // Set to true if you want to see SQL queries in the console
 });
+
 export default ecoDb;
+
+
 
 export async function authenticateDb() {
   try {

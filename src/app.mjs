@@ -10,7 +10,7 @@ import flash from "connect-flash";
 
 import webRoutes from "./routes/web/index.mjs";
 import apiRoutes from "./routes/api/index.mjs";
-import { syncUserDb } from "./models/User.mjs";
+
 import { setupPassport } from "./setupPassport.mjs";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -26,7 +26,7 @@ app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(cookieParser());
 app.use(session({
-    secret:"sdlfkjsdklfjk23434kj234k",
+    secret:"thisisoursaltysecret",
     resave:false,
     saveUninitialized:false
 }))
@@ -41,21 +41,28 @@ app.listen(app.get("port"), () => {
     console.log(`Server started on port ${app.get("port")}\n`);
 });
 
+import { syncUserDb } from "./models/sequelizeUser.mjs";
+import { syncRoleDb } from "./models/sequelizeRole.mjs";
+import { syncUserRoleDb } from "./models/sequelizeUserRole.mjs";
+
 await syncUserDb(); // this creates the users database
+await syncRoleDb();
+await syncUserRoleDb();
 
 
-import * as userQueries from "./database/UserQueries.mjs";
+//import * as userQueries from "./database/UserQueries.mjs";
 //import User from "./models/User.mjs";
 
-
 // get first user in the list of returns users then make it a plain json
-let theUsername = await userQueries.getUserById(4)
-if(theUsername != null) {
-    console.log(theUsername.username);
-} else {
-    console.log("No user with that id.")
-}
+// let theUsername = await userQueries.getUserById(1)
+// if(theUsername != null) {
+//     console.log(theUsername);
+// } else {
+//     console.log("No user with that id.")
+// }
 
-// make the returning object a nice json object
-//let usersPlain = users.map(user => user.get({ plain: true }));
-//console.log(usersPlain);
+//let allUsers = await userQueries.getUsers();
+//console.log(allUsers);
+
+//let whoAmI = await userQueries.getUserByUsernameAndPassword('johnny', '1234');
+//console.log(whoAmI);
