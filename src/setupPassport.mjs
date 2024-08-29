@@ -21,23 +21,5 @@ export async function deserializeTheUser(id) {
 }
 
 export async function setupPassport() {
-    passport.use("login", new LocalStrategy({
-        usernameField: 'username',
-        passwordField: 'password'
-    }, function (email, password, done) {
-        User.findOne({ email: email }, function (err, user) {
-            if (err) { return done(err); }
-            if (!user) {
-                return done(null, false, { message: "Username not found!" });
-            }
-            userController.checkPasswordIsMatch(password, function (err, isMatch) {
-                if (err) { return done(err); }
-                if (isMatch) {
-                    return done(null, user);
-                } else {
-                    return done(null, false, { message: "Invalid password" });
-                }
-            });
-        });
-    }));
+
 }

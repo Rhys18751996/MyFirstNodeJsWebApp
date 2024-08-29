@@ -21,8 +21,9 @@ export async function register(req, res) {
 
 export async function login(req, res) {
     console.log("login (userController)");
-    let Msg = req.query.Msg;
-    res.render('user/login', { title: 'LoginPage', Msg:Msg });
+    let username = req.query.username;
+    let errorMsg = req.query.Msg;
+    res.render('user/login', { title: 'LoginPage', errorMsg: errorMsg, username: username });
 }
 
 
@@ -44,13 +45,28 @@ export async function registerUser(req, res) {
 }
 
 export async function submitLogin(req, res) {
-    console.log("submitLogin (userController)");
+    try {
+        console.log("submitLogin (userController)");
 
-    var username = req.body.username;
-    var password = req.body.password;
+        const { username, password } = req.body;
+        
+        if (!username || !password) {
+            return res.status(400).json({ message: "Username and password are required" });
+        }
+    
+        let user = await userService.getUserByUsernameAndPassword(username, password)
 
-    let user = await userService.getUserByUsernameAndPassword();
-    res.json(user);
+        if (user) {
+            // Success
+            // add user to session with passport here
+            res.redirect('/');
+          } else {
+            res.redirect(`/user/login?Msg=Invalid username or password&username=${username}`);
+          }
+    } catch (error) {
+        console.error("Error during login:", error);
+        return res.status(500).json({ message: error });
+    }
 }
 
 export async function deleteUser(req, res) {
@@ -77,24 +93,25 @@ export async function createTestUser(req, res) {
     }
 
 
-async function saltPassword(pasword) {
-    let SALT_FACTOR = 10;
-    try {
-        let salt = await bcrypt.genSalt(SALT_FACTOR);
-        let hashedPassword = await bcrypt.hash(password, salt);
-        return hashedPassword;
+    
+    export async function searchUser(req, res) {
+        let queryString = req.query.q;
+        console.log("the user/searchUser/search?q=" + queryString +" route was called");
+        let msg = { queryString: queryString };
+        res.send(msg);
     }
-    catch(err) {
-        console.log(err);
+    
+    async function saltPassword(pasword) {
+        let SALT_FACTOR = 10;
+        try {
+            let salt = await bcrypt.genSalt(SALT_FACTOR);
+            let hashedPassword = await bcrypt.hash(password, salt);
+            return hashedPassword;
+        }
+        catch(err) {
+            console.log(err);
+        }
     }
-}
- async function checkPasswordIsMatch(){
-
- }
-
- export async function searchUser(req, res) {
-    let queryString = req.query.q;
-    console.log("the user/searchUser/search?q=" + queryString +" route was called");
-    let msg = { queryString: queryString };
-    res.send(msg);
-}
+     async function checkPasswordIsMatch(){
+    
+     }

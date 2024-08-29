@@ -36,10 +36,37 @@ export async function getUserById(userId) {
     }
 }
 
+export async function getUserByUsername(username) {
+    try {
+        console.log("getUserById (userQueries)");
+        let user = await User.findOne({ 
+            where: { username: username },
+            include: [{
+                model: Role,
+                as: 'roles', // Ensure this matches the alias defined in the association
+                attributes: ['id', 'title'] // Specify which attributes you want from the Role model
+            }]
+        })
+        let userJson = user ? user.toJSON() : null;
+        return userJson;
+    }
+    catch(err){
+        console.log(err);
+        throw err;
+    }
+}
+
 export async function getUserByUsernameAndPassword(username, password) {
     try {
         console.log("getUserByUsernameAndPassword (userQueries)");
-        let user = await User.findOne({ where: { username:username, password:password } })
+        let user = await User.findOne({ 
+            where: { username:username, password:password },
+            include: [{
+                model: Role,
+                as: 'roles', // Ensure this matches the alias defined in the association
+                attributes: ['id', 'title'] // Specify which attributes you want from the Role model
+            }] 
+        })
         let result = await user ? user.toJSON() : null;
         return result;
     }

@@ -14,16 +14,6 @@ export async function getAllUsers(req, res) {
     }
 }
 
-export async function getAllRoles(req, res) {
-    try {
-        console.log("getAllRoles (userController)");
-        let user = await roleService.getRoles();
-        res.json(user);
-    } catch (err) {
-        res.status(500).json({ error: 'Failed to fetch roles' });
-    }
-}
-
 export async function getUser(req, res) {
     console.log("getUser (userController)");
     let user = await userService.getUserById(req.params.id);
@@ -35,4 +25,15 @@ export async function searchUser(req, res) {
     console.log("the user/searchUser/search?q=" + queryString +" route was called");
     let msg = { queryString: queryString };
     res.json(msg);
+}
+
+
+export async function getAllRoles(req, res) {
+    try {
+        console.log("getAllRoles (userController)");
+        let user = await roleService.getRoles();
+        res.json(user);
+    } catch (err) {
+        res.status(500).json({ error: 'Failed to fetch roles' });
+    }
 }
