@@ -1,11 +1,17 @@
-import User from "../models/sequelizeUser.mjs";
+import { User, Role } from "../models/index.mjs";
 
 export async function getUsers() {
     try {
-        let users = await User.findAll();
+        let users = await User.findAll({
+            include: [{
+                model: Role,
+                as: 'roles', // Ensure this matches the alias defined in the association
+                attributes: ['id', 'title'] // Specify which attributes you want from the Role model
+            }]
+        });
         return users.map(user => user.get({ plain: true }));
-    } 
-    catch(err) {
+    } catch (err) {
+        console.error('Error fetching users:', err);
         return [];
     }
 }
@@ -13,7 +19,14 @@ export async function getUsers() {
 export async function getUserById(userId) {
     try {
         console.log("getUserById (userQueries)");
-        let user = await User.findOne({ where: { id: userId } })
+        let user = await User.findOne({ 
+            where: { id: userId },
+            include: [{
+                model: Role,
+                as: 'roles', // Ensure this matches the alias defined in the association
+                attributes: ['id', 'title'] // Specify which attributes you want from the Role model
+            }]
+        })
         let userJson = user ? user.toJSON() : null;
         return userJson;
     }

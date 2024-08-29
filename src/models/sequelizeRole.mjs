@@ -1,9 +1,7 @@
 import { DataTypes, Model } from 'sequelize';
 import ecoDb from "../database/sequelizeDbConnection.mjs"
-import UserRole from "../models/sequelizeUserRole.mjs"
 
 class Role extends Model {}
-
 Role.init({
   id: {
     type: DataTypes.INTEGER,

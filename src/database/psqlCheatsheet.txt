@@ -43,7 +43,19 @@ then to check the database table relations
 <db_name>-# \dt
 
 then to insert a record
-postgres-# INSERT INTO users (username, email, password, name, phone_number, address, "createdAt", "updatedAt")
+postgres-# 
+
+INSERT INTO users (username, email, password, name, phone_number, address, "createdAt", "updatedAt")
 VALUES ('johnny', 'john.doe@example.com', '1234', 'John Doe', '1234567890', '123 Main St, Anytown, Aus', NOW(), NOW());
+
+INSERT INTO roles (title, "createdAt", "updatedAt")
+VALUES ('admin', NOW(), NOW());
+INSERT INTO roles (title, "createdAt", "updatedAt")
+VALUES ('user', NOW(), NOW());
+
+INSERT INTO usersroles ("userId", "roleId", "createdAt", "updatedAt")
+VALUES (1, 1, NOW(), NOW());
+INSERT INTO usersroles ("userId", "roleId", "createdAt", "updatedAt")
+VALUES (1, 2, NOW(), NOW());
 
 <db_name>-# SELECT * FROM <table-name>;

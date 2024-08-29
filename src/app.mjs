@@ -41,29 +41,7 @@ app.listen(app.get("port"), () => {
     console.log(`Server started on port ${app.get("port")}\n`);
 });
 
-import { syncUserDb } from "./models/sequelizeUser.mjs";
-import { syncRoleDb } from "./models/sequelizeRole.mjs";
-import { syncUserRoleDb } from "./models/sequelizeUserRole.mjs";
-import { setUserRoleAssociations } from "./models/defineAssociations.mjs";
 
-await syncUserDb(); // this creates the users database
-await syncRoleDb();
-await syncUserRoleDb();
-await setUserRoleAssociations();
-
-//import * as userQueries from "./database/UserQueries.mjs";
-//import User from "./models/User.mjs";
-
-// get first user in the list of returns users then make it a plain json
-// let theUsername = await userQueries.getUserById(1)
-// if(theUsername != null) {
-//     console.log(theUsername);
-// } else {
-//     console.log("No user with that id.")
-// }
-
-//let allUsers = await userQueries.getUsers();
-//console.log(allUsers);
-
-//let whoAmI = await userQueries.getUserByUsernameAndPassword('johnny', '1234');
-//console.log(whoAmI);
+// syncing the database table and associaations on app startup
+import { syncDb } from "./models/index.mjs";
+await syncDb();

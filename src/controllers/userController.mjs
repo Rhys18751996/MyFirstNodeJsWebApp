@@ -1,4 +1,5 @@
-import * as db from "../database/UserQueries.mjs";
+import * as userService from "../Services/userService.mjs";
+import * as roleService from "../Services/roleService.mjs";
 import passport from "passport";
 import User from "../models/sequelizeUser.mjs";
 
@@ -16,12 +17,21 @@ export async function register(req, res) {
 
     res.render("user/register");
 }
+
+
+export async function login(req, res) {
+    console.log("login (userController)");
+    let Msg = req.query.Msg;
+    res.render('user/login', { title: 'LoginPage', Msg:Msg });
+}
+
+
 export async function registerUser(req, res) {
     console.log("registerUser (userController)");
     let result = {}
     try{
         const reqJson = req.body;
-        result.success = await db.createUser(reqJson.user)
+        result.success = await userService.createUser(reqJson.user)
     }
     catch(err) {
         result.success=false;
@@ -32,34 +42,15 @@ export async function registerUser(req, res) {
         res.redirect("/");
     }
 }
-export async function login(req, res) {
-    console.log("login (userController)");
+
+export async function submitLogin(req, res) {
+    console.log("submitLogin (userController)");
 
     var username = req.body.username;
     var password = req.body.password;
 
-    let user = await db.getUserByUsernameAndPassword();
+    let user = await userService.getUserByUsernameAndPassword();
     res.json(user);
-}
-
-// admin controllers
-export async function getAllUsers(req, res) {
-    console.log("getAllUsers (userController)");
-    let user = await db.getUsers();
-    res.json(user);
-    }
-
-export async function getUser(req, res) {
-    console.log("getUser (userController)");
-    let user = await db.getUserById(req.params.id);
-    res.json(user);
-}
-
-export async function searchUser(req, res) {
-    let queryString = req.query.q;
-    console.log("the user/searchUser/search?q=" + queryString +" route was called");
-    let msg = { queryString: queryString };
-    res.json(msg);
 }
 
 export async function deleteUser(req, res) {
@@ -81,7 +72,7 @@ export async function deleteUser(req, res) {
 
 export async function createTestUser(req, res) {
     console.log("createTestUser (userController)");
-    await db.createTestUser();
+    await userService.createTestUser();
     res.send("created test user");
     }
 
@@ -101,4 +92,9 @@ async function saltPassword(pasword) {
 
  }
 
-
+ export async function searchUser(req, res) {
+    let queryString = req.query.q;
+    console.log("the user/searchUser/search?q=" + queryString +" route was called");
+    let msg = { queryString: queryString };
+    res.send(msg);
+}

@@ -1,10 +1,7 @@
 import { DataTypes, Model } from 'sequelize';
 import ecoDb from "../database/sequelizeDbConnection.mjs"
-import User from "../models/sequelizeUser.mjs"
-import Role from "../models/sequelizeRole.mjs"
 
 class UserRole extends Model {}
-
 UserRole.init({
     id: {
         type: DataTypes.INTEGER,
@@ -40,7 +37,6 @@ UserRole.init({
         }
     ]
 });
-
 export default UserRole;
 
 export async function syncUserRoleDb() {

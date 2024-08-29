@@ -1,6 +1,5 @@
 import { DataTypes, Model } from 'sequelize';
 import ecoDb from "../database/sequelizeDbConnection.mjs"
-import UserRole from "../models/sequelizeUserRole.mjs"
 
 class User extends Model {}
 
