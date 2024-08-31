@@ -35,6 +35,10 @@ User.init({
     type: DataTypes.STRING,
     allowNull: true,
   },
+  profilePicture: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
   phone_number: {
       type: DataTypes.STRING,
       allowNull: true,
@@ -55,7 +59,7 @@ User.init({
   export async function syncUserDb() {
     try {
         await User.sync();
-        console.log('User table created');
+        console.log('User table sync');
     }
     catch(err) {
         console.log(err);

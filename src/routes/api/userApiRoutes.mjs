@@ -1,5 +1,5 @@
 import express from "express";
-import * as controller from '../../Controllers/userApiController.mjs';
+import * as controller from '../../controllers/userApiController.mjs';
 
 const router = express.Router();
 

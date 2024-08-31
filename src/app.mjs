@@ -5,19 +5,16 @@ import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import session from "express-session";
 import flash from "connect-flash";
-//import params from "./params/params";
 
 import webRoutes from "./routes/web/index.mjs";
 import apiRoutes from "./routes/api/index.mjs";
-
-import { setupPassport } from "./setupPassport.mjs";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
 
-
+app.use(express.static('public'));
 app.set("port", process.env.PORT || 3000);
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
@@ -29,44 +26,19 @@ app.use(flash());
 app.use(cookieParser());
 app.use(session({
     secret:"this_is_our_salty_little_secret",
+    resave:false,
+    saveUninitialized:false,
+    cookie: { secure: false } // Set to true if using HTTPS
 }))
 
 
 /////////////////////////////////////Passport
 import passport from "passport";
-import { Strategy as LocalStrategy } from 'passport-local';
-import { getUserByUsername } from "./Services/userService.mjs";
+import setupPassport from "./setupPassport.mjs"
 
 app.use(passport.initialize());
 app.use(passport.session());
-
-passport.use(new LocalStrategy({
-    usernameField: 'username',
-    passwordField: 'password'
-}, async (username, password, done) => {
-        // Fetch user from database or any other source
-        const theUser = await getUserByUsername(username);
-
-        if (!theUser) {
-            return done(null, false, { message: 'User does not exist' });
-        }
-
-        if (!(theUser.password == password)) {
-            return done(null, false, { message: "Password is not valid." });
-         }
-         return done(null, true);
-      }));
-
-passport.serializeUser(function(user, done) {
-    done(null, user.id);
-});
-
-passport.deserializeUser(function(user, done) {
-    User.findById(id, function (err, user) {
-    done(err, user);
-    });
-});
-/////////////////////////////////////Passport
+setupPassport(passport);
 
 app.use("/", webRoutes);
 app.use("/api", apiRoutes);

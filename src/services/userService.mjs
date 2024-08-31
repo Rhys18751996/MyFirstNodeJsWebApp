@@ -1,4 +1,5 @@
 import { User, Role } from "../models/index.mjs";
+import bcrypt from 'bcryptjs';
 
 export async function getUsers() {
     try {
@@ -78,15 +79,25 @@ export async function getUserByUsernameAndPassword(username, password) {
 
 export async function createUser(user) {
     try {
-        console.log("createUser (userQueries)");
-        let result = User.create({
+        console.log("createUser (userService)");
+
+
+        // Create user with all provided fields
+        const result = await User.create({
             username: user.username,
             email: user.email,
             password: user.password,
+            name: user.name || null,
+            phone_number: user.phone_number || null,
+            address: user.address || null,
+            profilePicture: 'placeholder_128.png' // profile picture default is hardcoded to placeholder image
         });
-    }
-    catch(err) {
-        console.log(err);
+
+        console.log('Result:', JSON.stringify(result, null, 2));
+        
+        return result;
+    } catch (err) {
+        console.error('Error creating user:', err);
         throw err;
     }
 }

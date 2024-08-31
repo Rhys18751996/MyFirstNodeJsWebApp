@@ -28,7 +28,7 @@ Role.init({
   export async function syncRoleDb() {
     try {
         await Role.sync();
-        console.log('roles table created');
+        console.log('roles table synced');
     }
     catch(err) {
         console.log(err);

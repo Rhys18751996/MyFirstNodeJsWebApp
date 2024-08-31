@@ -1,7 +1,5 @@
-import * as userService from "../Services/userService.mjs";
-import * as roleService from "../Services/roleService.mjs";
-import passport from "passport";
-import User from "../models/sequelizeUser.mjs";
+import * as userService from "../services/userService.mjs";
+import * as roleService from "../services/roleService.mjs";
 
 
 export async function getAllUsers(req, res) {

@@ -21,9 +21,12 @@
                   <a class="nav-link active" aria-current="page" href="/">Index</a>
                   <a class="nav-link" href="/home">home</a>
                   <a class="nav-link" href="/user">user</a>
-                  <a class="nav-link" href="/user/login">login</a>
-                  <a class="nav-link" href="/user/logout">logout</a>
-                  <a class="nav-link" href="/user/register">register</a>
+                  <% if (user) { %>
+                    <a class="nav-link" href="/user/logout">Logout</a>
+                  <% } else { %>
+                    <a class="nav-link" href="/user/login">Login</a>
+                    <a class="nav-link" href="/user/register">Register</a>
+                  <% } %>
                 </div>
               </div>
             </div>

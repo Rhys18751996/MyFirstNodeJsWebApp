@@ -42,7 +42,7 @@ export default UserRole;
 export async function syncUserRoleDb() {
     try {
         await UserRole.sync();
-        console.log('usersroles table created');
+        console.log('usersroles table synced');
     }
     catch(err) {
         console.log(err);
