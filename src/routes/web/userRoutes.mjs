@@ -22,4 +22,6 @@ router.post("/submitLogin", passport.authenticate("local"), controller.submitLog
 
 router.get("/createTestUser", controller.createTestUser);
 
+router.get("/logout", controller.logout);
+
 export default router;

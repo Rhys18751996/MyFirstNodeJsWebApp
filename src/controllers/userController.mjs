@@ -134,6 +134,12 @@ export async function submitLogin(req, res, next) {
   }
 }
 
+export async function logout(req, res) {
+    console.log("logout (userController)");
+    var result = await req.session.destroy();
+    //console.log(`logout result: ${JSON.stringify(result, null, 2)}`)
+    res.redirect('/user/login');
+}
 
 export async function deleteUser(req, res) {
     let result = {}
