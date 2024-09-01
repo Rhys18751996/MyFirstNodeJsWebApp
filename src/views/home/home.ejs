@@ -18,9 +18,19 @@
         <div class="container">
             <h1>Welcome to home page</h1>
             <% if (typeof user !== 'undefined' && user) { %>
-                <p>Hello, <%= user %>!</p>
+                <p>Hello, <%= user.username %>!</p>
             <% } else { %>
                 <p>Please <a href="/user/login">login</a> to see your username.</p>
+            <% } %>
+
+            <% if (typeof user !== 'undefined' && user) { %>
+                <h3>User Roles</h3>
+                <p>Username: <%= user.username %></p>
+                <ul>
+                <% user.roles.forEach(function(role) { %>
+                    <li><%= role %></li>
+                <% }); %>
+                </ul>
             <% } %>
         </div>
 

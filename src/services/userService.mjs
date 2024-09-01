@@ -39,7 +39,7 @@ export async function getUserById(userId) {
 
 export async function getUserByUsername(username) {
     try {
-        console.log("getUserById (userQueries)");
+        console.log("getUserByUsername (userQueries)");
         let user = await User.findOne({ 
             where: { username: username },
             include: [{
