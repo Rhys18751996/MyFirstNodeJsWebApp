@@ -95,6 +95,8 @@ export async function createUser(user) {
 
         console.log('Result:', JSON.stringify(result, null, 2));
         
+        // use result.id to create a usersroles record (default as 'user' role)
+
         return result;
     } catch (err) {
         console.error('Error creating user:', err);
