@@ -41,10 +41,19 @@ export default UserRole;
 
 export async function syncUserRoleDb() {
     try {
-        await UserRole.sync();
-        console.log('usersroles table synced');
-    }
-    catch(err) {
-        console.log(err);
+        // Check if the table exists
+        const [results] = await ecoDb.query(
+            "SELECT * FROM information_schema.tables WHERE table_name = 'usersroles';"
+        );
+  
+        if (results.length > 0) {
+            console.log('usersroles table already exists.');
+        } else {
+            // Table does not exist, sync it
+            await UserRole.sync();
+            console.log('usersroles table created and synced.');
+        }
+    } catch (err) {
+        console.error('Error checking table existence:', err);
     }
 }

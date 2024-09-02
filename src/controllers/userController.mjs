@@ -2,8 +2,6 @@ import * as userService from "../services/userService.mjs";
 import * as roleService from "../services/roleService.mjs";
 import passport from "passport";
 import User from "../models/sequelizeUser.mjs";
-import path from 'path';
-import expressFileupload from 'express-fileupload'
 
 export async function index(req, res) {
     console.log("index (userController)");
@@ -31,9 +29,11 @@ export async function registerUser(req, res) {
   try {
     var existingUser = await User.findOne({ $or: [{ username }, { email }] });
 
-    console.log(`existingUser.username: ${existingUser.username}`);
-    if (existingUser.username == username) {
-      return res.status(400).json({ message: `username:${username} or email already exists` });
+    if(typeof existingUser !== 'undefined') {
+        console.log(`existingUser.username: ${existingUser.username}`);
+        if (existingUser.username == username) {
+          return res.status(400).json({ message: `username:${username} or email already exists` });
+        }
     }
 
     const profilePicturePath = req.file ? req.file.path : null;

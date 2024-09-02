@@ -27,10 +27,19 @@ Role.init({
 
   export async function syncRoleDb() {
     try {
-        await Role.sync();
-        console.log('roles table synced');
-    }
-    catch(err) {
-        console.log(err);
-    }
+      // Check if the table exists
+      const [results] = await ecoDb.query(
+          "SELECT * FROM information_schema.tables WHERE table_name = 'roles';"
+      );
+
+      if (results.length > 0) {
+          console.log('roles table already exists.');
+      } else {
+          // Table does not exist, sync it
+          await Role.sync();
+          console.log('roles table created and synced.');
+      }
+  } catch (err) {
+      console.error('Error checking table existence:', err);
+  }
 }

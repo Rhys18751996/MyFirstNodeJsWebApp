@@ -58,10 +58,19 @@ User.init({
 
   export async function syncUserDb() {
     try {
-        await User.sync();
-        console.log('User table sync');
-    }
-    catch(err) {
-        console.log(err);
+        // Check if the table exists
+        const [results] = await ecoDb.query(
+            "SELECT * FROM information_schema.tables WHERE table_name = 'users';"
+        );
+
+        if (results.length > 0) {
+            console.log('users table already exists.');
+        } else {
+            // Table does not exist, sync it
+            await User.sync();
+            console.log('users table created and synced.');
+        }
+    } catch (err) {
+        console.error('Error checking table existence:', err);
     }
 }
